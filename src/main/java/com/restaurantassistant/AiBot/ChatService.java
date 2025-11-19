@@ -32,7 +32,7 @@ public class ChatService {
                                 .user("Restaurant assistant")
                                 .build()
                 ));
-        return response.getResults().toString();
+        return response.getResult().getOutput().getText();
     }
 
     @Tool(description = "Get the current date and time in the user's timezone")
