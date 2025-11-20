@@ -1,5 +1,6 @@
 package com.restaurantassistant.AiBot;
 
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -27,17 +28,19 @@ public class ChatService {
 //    }
 
     public String getResponse(String prompt) {
-        ChatResponse response = chatModel.call(
-                new Prompt(
-                        prompt,
-                        OpenAiChatOptions.builder()
-                                .model("gpt-4o")
-                                .temperature(0.0)
-                                .toolChoice(OpenAiChatOptions.DEFAULT_TOOL_EXECUTION_ENABLED)
-                                .user("Restaurant assistant")
-                                .build()
-                ));
-        return response.getResult().getOutput().getText();
+
+        ChatClient client = ChatClient.builder(chatModel).build();
+
+        var response = client.prompt()
+                .user(prompt)
+                .options(OpenAiChatOptions.builder()
+                        .model("gpt-4o")
+                        .temperature(0.0)
+                        .toolChoice("auto")
+                        .build())
+                .call();
+
+        return response.content();
     }
 
         @Tool(description = "Get the current date and time in the user's timezone")
