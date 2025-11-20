@@ -3,12 +3,15 @@ package com.restaurantassistant.AiBot;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.stereotype.Service;
+
 import java.util.Scanner;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+@Service
 public class ToolService {
     @Tool(description = "Find all bookings")
     public JSONPObject findAllBookings(){
