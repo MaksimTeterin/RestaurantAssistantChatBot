@@ -23,16 +23,13 @@ public class ChatService {
         this.chatModel = chatModel;
     }
 
-//    public String getResponse(String prompt) {
-//        return chatModel.call(prompt);
-//    }
-
     public String getResponse(String prompt) {
 
         ChatClient client = ChatClient.builder(chatModel).build();
 
         var response = client.prompt()
                 .user(prompt)
+                .tools(new ToolService())
                 .options(OpenAiChatOptions.builder()
                         .model("gpt-4o")
                         .temperature(0.0)
